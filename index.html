@@ -115,6 +115,14 @@
       font-weight: 600;
     }
 
+    .paragraph {
+      margin-bottom: 16px;
+      font-size: 1rem;
+      color: #7a0030;
+      line-height: 1.45;
+      text-align: left;
+    }
+
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -130,19 +138,24 @@
 <body>
   <div class="card">
     <h1>Will you be my Valentine?</h1>
-    <p class="subtitle">There is only one correct answer…</p>
+    <p class="subtitle">I only want you in this world.</p>
 
-    <div class="buttons">
+    <div class="buttons" id="buttonRow">
       <button id="yesBtn">Yes 💘</button>
       <button id="noBtn">No 😢</button>
     </div>
 
     <div id="result" class="hidden">
+      <p class="paragraph">
+        Thank you for saying yes my love. Although I know you're mine, I still want you to feel special so I made this website only for you. I love this photo of us because we desperately needed quality time together during break, and we enjoyed every second of that whole day. Ending it off at the ferry was the perfect ending to make it one of the most memorable times I've ever had. Thank you for everything, including being my beautiful valentine.
+      </p>
+
       <div class="photo-container">
         <img src="photo.jpeg" alt="Us together">
       </div>
+
       <div class="message">
-        I adore you. ❤️
+        I adore you baby. ❤️
       </div>
     </div>
   </div>
@@ -151,32 +164,39 @@
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const result = document.getElementById("result");
+    const buttonRow = document.getElementById("buttonRow");
 
     let yesScale = 1;
 
     noBtn.addEventListener("mouseenter", () => {
-      const cardRect = noBtn.closest(".card").getBoundingClientRect();
+      const card = noBtn.closest(".card");
+      const cardRect = card.getBoundingClientRect();
       const btnRect = noBtn.getBoundingClientRect();
 
-      const maxX = cardRect.width - btnRect.width - 20;
-      const maxY = 60 - btnRect.height;
+      const padding = 20;
 
-      const randomX = Math.random() * maxX - (btnRect.left - cardRect.left);
-      const randomY = Math.random() * maxY - (btnRect.top - cardRect.top - 140);
+      const maxX = cardRect.width - btnRect.width - padding;
+      const maxY = cardRect.height - btnRect.height - padding;
 
-      noBtn.style.position = "relative";
-      noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+      let newX = Math.random() * maxX;
+      let newY = Math.random() * maxY;
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = `${newX}px`;
+      noBtn.style.top = `${newY}px`;
 
       yesScale += 0.12;
       yesBtn.style.transform = `scale(${yesScale})`;
     });
 
     yesBtn.addEventListener("click", () => {
+      buttonRow.classList.add("hidden");
+      document.querySelector("h1").classList.add("hidden");
+      document.querySelector(".subtitle").classList.add("hidden");
+
       result.classList.remove("hidden");
-      yesBtn.disabled = true;
-      noBtn.disabled = true;
-      noBtn.style.opacity = 0.3;
     });
   </script>
 </body>
 </html>
+
